@@ -1,0 +1,46 @@
+---
+- name: manage libvirt guests
+  user: oneadmin
+  hosts: kvm1
+
+  vars_files:
+      - guests.yml
+
+  tasks:
+      - name: get list of vms
+        virt: command=list_vms
+        register: virt_vms
+      - debug: "var=guests"
+
+  #      - name: copy preseeds
+  #        copy:
+  #         src: "{{item.value.preseed}}"
+  #         dest: "{{item.value.disk_path}}/{{item.value.preseed}}"
+  #      with_dict: "{{guests}}"
+
+      - name: create vm
+        command: virt-install -n {{item.key}}
+                 --memory {{ item.value.memory }}
+                 --vcpus {{ item.value.cpu }}
+                 --location {{ item.value.url }}
+                 --os-type {{ item.value.os_type }}
+                 --os-variant {{ item.value.os_variant }}
+                 --network network={{item.value.network}}
+                 --graphics vnc,listen=0.0.0.0
+                 --{{item.value.virt_hypervisor}}
+                 --virt-type {{ item.value.virt_type }}
+                 --disk size={{item.value.disk_size}},path={{item.value.disk_path}}/{{item.key}}.img 
+                 --extra-args="locale=en_US console-setup/ask_detect=false auto=true priority=critical netcfg/use_autoconfig=true netcfg/disable_dhcp=false network-console/password=instpass network-console/start=true  passwd/make-user=false preseed/url={{item.value.urlpreseed}} quiet" 
+                 --noautoconsole
+        when: item.key not in virt_vms.list_vms
+        with_dict: "{{guests}}"
+
+      - name: get guest info
+        virt: command=info
+        register: virt_info
+
+      - name: make sure all vms are running
+        virt: name={{item.key}} command=start
+        when: virt_info[item.key]['state'] != 'running'
+  #        with_items: guests
+        with_dict: "{{guests}}"

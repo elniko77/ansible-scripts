@@ -1,0 +1,32 @@
+---
+guests:
+    #    centos7:
+    #  url: http://centos.osuosl.org/7/os/x86_64/
+    #  cpu: 1
+    #  memory: 2048
+    #  virt_type: kvm
+    #  virt_hypervisor: hvm
+    #  os_type: linux
+    #  os_variant: rhel7
+    #  preseed: ubuntu1604_preseed.cfg
+    #  network: nat-interna
+    #  disk_size: 5
+    #  disk_path: /var/lib/libvirt/images
+
+    ubuntu1604:
+       url: http://archive.ubuntu.com/ubuntu/dists/xenial/main/installer-amd64/
+       cpu: 1
+       memory: 2048
+       virt_type: kvm
+       virt_hypervisor: hvm
+       os_type: linux
+       os_variant: ubuntu16.04
+    #       preseed: ubuntu1604_preseed.cfg
+       urlpreseed: http://192.168.41.19/ubuntu1604_preseed.cfg
+       network: nat-interna
+       disk_size: 5
+       disk_path: /var/lib/libvirt/images
+
+
+#    pepe:
+#       cpu: 1
