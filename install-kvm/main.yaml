@@ -1,0 +1,10 @@
+---
+    - name: Install KVM on Ubuntu and Centos
+      hosts: kvmservers
+      remote_user: nss
+      #vars:
+      #  ansible_ssh_private_key_file: /root/.ssh/id_rsa
+
+      roles:
+        - checkvirt
+        - installkvm

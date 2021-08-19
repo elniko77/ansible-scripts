@@ -1,0 +1,7 @@
+---
+  - name: CentOS install
+    when: ansible_facts['distribution'] == 'CentOS'
+    include_tasks: centos.yaml
+  - name: Ubuntu install
+    when: ansible_facts['distribution'] == 'Ubuntu'
+    include_tasks: ubuntu.yaml

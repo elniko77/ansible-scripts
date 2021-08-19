@@ -1,0 +1,27 @@
+- name: install kvm packages on Ubuntu
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+      - bridge-utils
+      - libguestfs-tools
+      - libnss-libvirt
+      - libvirt-clients
+      - libvirt-daemon-system
+      - libvirt-dev
+      - python3-libvirt
+      - qemu-kvm
+      - qemu-utils
+      - virt-top
+      - virtinst
+
+- name: Enable and Start libvirtd
+  systemd:
+    name: libvirtd
+    state: started
+    enabled: yes
+
+- name: Verify KVM module is loaded
+  shell: "lsmod | grep -i kvm"
+  register: result
+  failed_when: "result.rc != 0"
