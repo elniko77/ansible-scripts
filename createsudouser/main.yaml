@@ -1,0 +1,8 @@
+---
+    - name: Create sudo user
+      hosts: kvmservers
+      remote_user: nss
+
+      roles:
+        - createsudouser
+
