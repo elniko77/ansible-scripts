@@ -2,6 +2,15 @@
   - name: CentOS install
     when: ansible_facts['distribution'] == 'CentOS'
     include_tasks: centos.yaml
+  
   - name: Ubuntu install
     when: ansible_facts['distribution'] == 'Ubuntu'
     include_tasks: ubuntu.yaml
+  
+  - name: Agregar los usuarios definidos en el grupo libvirt
+    user: 
+      name: "{{ item }}"
+     groups: libvirt, libvirt-qemu, libvirt-dnsmasq
+     append: yes
+    with_items:
+      "{{ libvirt_users }}"
