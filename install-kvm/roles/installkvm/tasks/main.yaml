@@ -10,7 +10,7 @@
   - name: Agregar los usuarios definidos en el grupo libvirt
     user: 
       name: "{{ item }}"
-     groups: libvirt, libvirt-qemu, libvirt-dnsmasq
-     append: yes
+      groups: libvirt, libvirt-qemu, libvirt-dnsmasq
+      append: yes
     with_items:
       "{{ libvirt_users }}"
