@@ -1,3 +1,4 @@
 group_vars/*.yaml
 roles/group_vars/all.yaml
 ansible.cfg
+installkvm/ansible.cfg
