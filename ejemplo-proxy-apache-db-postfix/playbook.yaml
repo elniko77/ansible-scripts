@@ -1,0 +1,30 @@
+- hosts: webservers
+  become: yes
+  roles:
+    - common
+#    - apache2
+  tags:
+    web
+
+- hosts: mailservers
+  become: yes
+  roles:
+    - common
+    - postfix
+  tags:
+    mail
+
+# - hosts: proxy
+#   become: yes
+#   roles:
+#     - common
+#     - nginx
+#   tags: 
+#     proxy
+
+# - hosts: database
+#   become: yes
+#   roles:
+#     - common
+#     - mysql
+#   tags: database

@@ -1,0 +1,11 @@
+- name: ensure postfix is at the latest version
+  apt: name=postfix state=latest
+
+- name: write the config file
+  template: src=templates/postfix-main.j2 dest=/etc/postfix/main.cf
+  notify: restart postfix
+
+- name: ensure postfix is running
+  service:
+    name: postfix
+    state: started

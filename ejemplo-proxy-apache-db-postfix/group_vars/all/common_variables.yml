@@ -1,0 +1,18 @@
+ansible_connection: ssh
+ansible_user: vagrant
+ansible_password: vagrant  
+
+http_port: 8000
+https_port: 4443
+html_welcome_msg: "Probando html apache"
+
+mysql_user_name: root
+mysql_user_password: vagrant
+db_user: nss
+db_pass: testpass
+db_name: testdb
+
+
+mail_hostname: mail1.dominio.com
+mail_domain: dominio.com
+mail_networks: 127.0.0.0/8, 192.168.0.0/16
