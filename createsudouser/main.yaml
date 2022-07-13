@@ -1,6 +1,6 @@
 ---
     - name: Create sudo user
-      hosts: kvmservers
+      hosts: all
       remote_user: nss
 
       roles:
