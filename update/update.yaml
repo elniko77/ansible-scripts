@@ -1,0 +1,23 @@
+---
+# ansible/playbooks/update.yml
+
+- name: "Update servers"
+  hosts: "all"
+
+  handlers:
+
+    - name: "Reboot system"
+      ansible.builtin.reboot:
+        reboot_timeout: 1800
+      become: true
+
+  tasks:
+
+    - name: "Manage system Update"
+      ansible.builtin.package:
+        name: "*"
+        state: "latest"  # noqa package-latest
+      become: true
+      notify:
+        - "Reboot system"
+...
