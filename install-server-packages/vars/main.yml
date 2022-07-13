@@ -1,0 +1,19 @@
+apt_packages:
+    - apt-transport-https
+    - curl
+    - git
+    - htop
+    - jq
+    - traceroute
+    - vim
+    - mc
+    - tmux
+
+rpm_packages:
+    - vim
+    - curl
+    - zsh
+    - mc
+    - tmux
+
+
