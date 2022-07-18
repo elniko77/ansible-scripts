@@ -1,0 +1,81 @@
+# Execute playbook
+# Se podria ejecutar el playbook sobre vm nueva:
+# $ ansible-playbook -i IP_ADDRESS, -u USER -k -K ansible/playbooks/configure.yml
+
+# - hosts: localhost
+#   tasks:
+#     - name: Install Builder
+#       become: yes
+#       package:
+#         name: gnome-builder
+#         state: present
+#     - name: Remove Rhythmbox
+#       become: yes
+#       package:
+#         name: rhythmbox
+#         state: absent
+#     - name: Install GNOME Music
+#       become: yes
+#       package:
+#         name: gnome-music
+#         state: present
+#     - name: Remove Shotwell
+#       become: yes
+#       package:
+#         name: shotwell
+#         state: absent
+
+# vars_files:
+#     - "../manifest.yml"
+
+#   tasks:
+
+#     - name: "Configure hostname"
+#       ansible.builtin.hostname:
+#         name: "{{ system.hostname }}"
+#       become: true
+
+
+- hosts: localhost
+  tasks:
+    - name: "Window Buttons"
+      community.general.dconf:
+        key: "/org/gnome/desktop/wm/preferences/button-layout"
+        value: "'appmenu:minimize,maximize,close'"
+        state: "present"
+#     - name: Enable Night Light
+#       dconf:
+#         key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
+#         value: true
+#     - name: Set Night Light Temperature
+#       dconf:
+#         key: /org/gnome/settings-daemon/plugins/color/night-light-temperature
+#         value: uint32 5500
+
+- hosts: localhost
+  vars:
+    - user: 'nss'
+    - dotfiles_repo: 'git@github.com:elniko77/dotfiles.git' 
+  tasks:
+    - name: "Check out dotfiles from repository"
+      git:
+        repo: "{{ dotfiles_repo }}"
+        dest: /home/nss/dotfiles
+        # accept_hostkey: yes
+        # key_file: "/home/{{ user }}/{{ ssh_key }}"
+        # force: yes
+      delegate_to: localhost
+      run_once: true
+      become: no
+
+- hosts: localhost
+  tasks:
+    - name: Enable Flathub repository
+      become: yes
+      command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    # - name: Install Fractal
+    #   become: yes
+    #   command: flatpak install --assumeyes flathub org.gnome.Fractal
+    - name: Install Spotify
+      become: yes
+      command: flatpak install --assumeyes flathub com.spotify.Client
